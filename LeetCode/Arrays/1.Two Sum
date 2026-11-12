@@ -1,0 +1,61 @@
+//Brute Force 
+
+Approach: 
+Initialize a fixed-size result array of size 2.
+Iterate through the array using index i.
+For each element, iterate through the array using index j to check all pairs.
+If nums[i] + nums[j] == target (ensuring i != j), record the indices and return the result.
+
+Time Complexity - O(n^2) - Nested loops check every combination of elements.
+Space Complexity - O(1) - Uses a fixed-size array requiring no extra scaling memory.
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int[] arr=new int[2];
+        for(int i=0;i<nums.length;i++){
+            int ans=target-nums[i];
+            for(int j=0;j<nums.length;j++){
+                if(nums[j]==ans && i!=j){
+                    arr[0]=i;
+                    arr[1]=j;
+                }
+            }
+        }
+        return arr;
+    }
+}
+
+
+
+//Optimal Solution
+
+Solve in a single pass by dynamically tracking previously visited elements and their indices in a Hash Map to check for the required complement instantly.
+
+Approach: 
+Initialize an empty Hash Map to store element -> index mappings.
+Iterate through the array once using index i.
+Calculate the required complement: res = target - nums[i].
+Check if the Hash Map contains res:
+If found: Retrieve its index, assign the indices to the result array, and return.
+Else: Store the current element and its index in the map for future lookups.
+
+Time Complexity - O(n)
+Space Complexity - O(n)
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int[] arr = new int[2];
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            int req = target - nums[i];
+            if(map.containsKey(req)){
+                int first = map.get(req);
+                arr[0] = first;
+                arr[1] = i;
+            }else{
+                map.put(nums[i], i);
+            }
+        }
+        return arr;
+    }
+}
